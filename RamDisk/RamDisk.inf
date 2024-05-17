@@ -1,0 +1,78 @@
+## @file
+#  RamDisk -- UEFI RamDisk Driver
+#  Copyright (C) 2016  Enmotus, Inc.
+#  
+#  http://www.enmotus.com
+#  65 Enterprise
+#  Aliso Viejo, CA 92656
+#  Phone: 949.330.6220
+#  Info@enmotus.com
+#  sales@enmotus.com
+#  saleseurope@enmotus.com
+#  Roger C. Pao <rcpao.enmotus+RamDiskEfi@gmail.com>
+#
+#
+#  GNU General Public License, version 2
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; only version 2
+#  of the License.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+##
+
+[Defines]
+  INF_VERSION               = 0x00010005
+  BASE_NAME                 = RamDisk
+  FILE_GUID                 = E029FB80-D035-11E5-B654-005056C00008
+  MODULE_TYPE               = UEFI_DRIVER
+  VERSION_STRING            = 1.0.0
+  ENTRY_POINT               = RamDiskDriverEntryPoint
+  UNLOAD_IMAGE              = RamDiskUnload
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[Sources]
+  RamDisk.h
+  RamDisk.c
+  ComponentName.c
+  ComponentName.h
+  BlockIo.c
+  BlockIo.h
+  pr.c
+  pr.h
+  diskimage.h
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  MemoryAllocationLib
+  BaseMemoryLib
+  BaseLib
+  UefiLib
+  DevicePathLib
+  DebugLib
+
+[Protocols]
+  gEfiDriverBindingProtocolGuid
+  #gEfiPciIoProtocolGuid
+  gEfiDriverSupportedEfiVersionProtocolGuid
+  gEfiComponentName2ProtocolGuid
+  gEfiComponentNameProtocolGuid
+  gEfiBlockIoProtocolGuid
+  #gEfiBlockIo2ProtocolGuid
+
+[Guids]
+
+[Depex]
+  TRUE

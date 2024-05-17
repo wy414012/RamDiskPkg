@@ -1,0 +1,48 @@
+## @file
+#  RamDisk -- UEFI RamDisk Driver
+#  Copyright (C) 2016  Enmotus, Inc.
+#
+#  http://www.enmotus.com
+#  65 Enterprise
+#  Aliso Viejo, CA 92656
+#  Phone: 949.330.6220
+#  Info@enmotus.com
+#  sales@enmotus.com
+#  saleseurope@enmotus.com
+#  Roger C. Pao <rcpao.enmotus+RamDiskEfi@gmail.com>
+#
+#
+#  GNU General Public License, version 2
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; only version 2
+#  of the License.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION = 0x00010005
+  PACKAGE_NAME      = RamDiskPkg
+  PACKAGE_GUID      = 739c85f0-d035-11e5-8753-005056c00008
+  PACKAGE_VERSION   = 1.0
+
+[Includes]
+  Include
+
+[LibraryClasses]
+
+[Protocols]
+  ## Include/Protocol/RamDiskProtocol.h
+  #gEfiRamDiskProtocolProtocolGuid = {0x8eb35670, 0xd035, 0x11e5, {0xa6, 0x34, 0x00, 0x50, 0x56, 0xc0, 0x00, 0x08}}
+
+[Guids]

@@ -1,0 +1,118 @@
+[Defines]
+
+
+[FV.RamDiskFFS]
+  BlockSize          = 0x10000
+  NumBlocks          = 128
+  FvAlignment        = 16         #FV alignment and FV attributes setting.
+  ERASE_POLARITY     = 1
+  MEMORY_MAPPED      = TRUE
+  STICKY_WRITE       = TRUE
+  LOCK_CAP           = TRUE
+  LOCK_STATUS        = TRUE
+  WRITE_DISABLED_CAP = TRUE
+  WRITE_ENABLED_CAP  = TRUE
+  WRITE_STATUS       = TRUE
+  WRITE_LOCK_CAP     = TRUE
+  WRITE_LOCK_STATUS  = TRUE
+  READ_DISABLED_CAP  = TRUE
+  READ_ENABLED_CAP   = TRUE
+  READ_STATUS        = TRUE
+  READ_LOCK_CAP      = TRUE
+  READ_LOCK_STATUS   = TRUE
+
+
+## 主核心程序
+
+INF RamDiskPkg/RamDisk/RamDisk.inf
+
+## ACPI完整的固件包用于重构
+INF RamDiskPkg/AcpiTable/AcpiTables.inf
+
+## SATA驱动提升版本兼容到aptioV
+
+INF RamDiskPkg/SataDriver/SataDriver.inf
+
+## 螃蟹网卡驱动
+
+INF RamDiskPkg/RtkUniDxe/RtkUndiDxe.inf
+
+## logo
+#INF RamDiskPkg/Logo/Logo.inf
+#INF RamDiskPkg/SmallLogo/SmallLogo.inf
+
+
+# Note :`GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF` and `COMPRESS TIANO`
+# Note: `GUIDED A31280AD-481E-41B6-95E8-127F4C984779` with standard tools makes a Tiano compressed
+# GUIDED section, but this is different from a Tiano compressed COMPRESS section and legacy Mac
+# firmware also cannot read it.
+#
+[Rule.Common.UEFI_DRIVER]
+  FILE DRIVER = $(NAMED_GUID) {
+    DXE_DEPEX DXE_DEPEX Optional      $(INF_OUTPUT)/$(MODULE_NAME).depex
+	GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF{
+    PE32        PE32                      $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI        STRING="$(MODULE_NAME)" Optional
+    VERSION   STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+	}
+  }
+[Rule.Common.UEFI_DRIVER.BINARY]
+  FILE DRIVER = $(NAMED_GUID) {
+    DXE_DEPEX    DXE_DEPEX Optional      |.depex
+	GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF{
+    PE32         PE32                    |.efi
+    UI        STRING="$(MODULE_NAME)" Optional
+    VERSION   STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+	}
+  }
+  
+[RULE.COMMON.USER_DEFINED]
+  FILE FREEFORM = $(NAMED_GUID) {
+  GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF{
+   RAW BIN  Optional                |.BIN
+   }
+  }
+[RULE.COMMON.USER_DEFINED.BINARY]
+  FILE FREEFORM = $(NAMED_GUID) {
+    RAW RAW   Optional                |.bin
+  }
+[RULE.COMMON.USER_DEFINED]
+  FILE FREEFORM = $(NAMED_GUID) {
+    RAW ACPI  Optional                |.acpi
+    RAW ASL   Optional                |.aml
+  }
+[Rule.Common.UEFI_APPLICATION]
+  FILE APPLICATION = $(NAMED_GUID) {
+  GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF{
+    PE32        PE32                      $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI        STRING="$(MODULE_NAME)" Optional
+    VERSION   STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+	}
+  }
+[Rule.Common.UEFI_APPLICATION.BINARY]
+  FILE APPLICATION = $(NAMED_GUID) {
+  GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF{
+    PE32        PE32                      $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI        STRING="$(MODULE_NAME)" Optional
+    VERSION   STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+	}
+  }
+[Rule.Common.DXE_DRIVER]
+  FILE DRIVER = $(NAMED_GUID) {
+    DXE_DEPEX DXE_DEPEX Optional      $(INF_OUTPUT)/$(MODULE_NAME).depex
+    PE32      PE32                    $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI        STRING="$(MODULE_NAME)" Optional
+    VERSION   STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+    RAW ACPI  Optional                |.acpi
+    RAW ASL   Optional                |.aml
+  }
+  
+[Rule.Common.USER_DEFINED.CSM]
+  FILE FREEFORM = $(NAMED_GUID) {
+    RAW BIN                |.bin
+  }
+
+[Rule.Common.SEC.RESET_VECTOR]
+  FILE RAW = $(NAMED_GUID) {
+    RAW BIN   Align = 16   |.bin
+  }
